@@ -87,8 +87,8 @@ def fetch_ao3_chapter(url: str):
         raise ValueError("That doesn't look like an AO3 URL. "
                          "Please paste a link from archiveofourown.org")
 
-    #checks for single chapter, a whole work would use too much storage
-    #and the calculator gets cranky when you run out og memory/storage
+    # checks for single chapter, a whole work would use too much storage
+    # and the calculator gets cranky when you run out og memory/storage
     # e.g. https://archiveofourown.org/works/12345/chapters/67890
     if "/chapters/" not in url:
         # If the user pasted a plain /works/ URL, redirect them helpfully
