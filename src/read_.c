@@ -6,15 +6,17 @@
 #include <stdint.h>
 
 // Settings
-#define LINES_ON_SCREEN   24  // lines visible on screen
-#define LINE_HEIGHT       10  // pixels per line
-#define LINE_WIDTH        39  // characters per line
-#define SCREEN_WIDTH     320
-#define SCREEN_HEIGHT    240
-#define SCROLL_BUFFER     2   // extra lines user can scroll past the last full screen
+#define LINES_ON_SCREEN   24   // lines visible on screen
+#define LINE_HEIGHT       10   // pixels per line
+#define LINE_WIDTH        39   // characters per line
+#define SCREEN_WIDTH     320   //screen size in pixels
+#define SCREEN_HEIGHT    240   //also screen size in pixels
+#define SCROLL_BUFFER     2    // extra lines user can scroll past the last full screen
 
-// Set to 1 to show character number:byte value, 0 for normal reading, not useful, requires file Ch1.8xv to be present
-#define DEBUG_MODE 1
+// Set to 1 to show character number:byte_value, 0 for normal reading
+//not useful, requires file Ch1.8xv to be present
+//don't use this, leftover from chunking attempts
+#define DEBUG_MODE 0
 
 // Line storage — dynamically allocated, one malloc per line
 char **lines     = NULL;  // array of pointers to individual lines
@@ -50,7 +52,9 @@ void build_filename(int chapter_num, char *filename) {
 }
 
 // Read one line from the open file.
-// Returns 1 if a line was read, 0 at end of file.
+// I think this is an artifact from trying to load chapters in chunks of 100 lines
+//chunking did not work, it kept excluding the last 15 lines of a chunk
+//too scared to delete it
 int read_line(char *buffer, int max_len) {
     int i = 0;
     uint8_t c;

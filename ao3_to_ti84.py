@@ -4,7 +4,8 @@ AO3 to TI-84 Plus CE Chapter Fetcher
 Fetches a chapter from AO3, saves it as a .txt file,
 then converts it to an 8xv file ready to send to your TI-84 Plus CE.
 
-Requirements (install once):
+Requires Python 3, cloudscraper, and beautifulsoup4.
+forgot why soup is needed but just do it
     pip install cloudscraper beautifulsoup4
 
 Usage:
@@ -71,7 +72,7 @@ def build_header(title: str, author: str, chapter_title: str,
     return "\n".join(lines)
 
 
-#  Core fetch logic 
+# Core fetch logic 
 
 def fetch_ao3_chapter(url: str):
     """
@@ -81,19 +82,20 @@ def fetch_ao3_chapter(url: str):
     Raises ValueError with a readable message on failure.
     """
 
-    #  1. Validate the URL 
+    # Validates the URL 
     if "archiveofourown.org" not in url:
         raise ValueError("That doesn't look like an AO3 URL. "
                          "Please paste a link from archiveofourown.org")
 
-    # Make sure we're asking for a single chapter, not the whole work
+    #checks for single chapter, a whole work would use too much storage
+    #and the calculator gets cranky when you run out og memory/storage
     # e.g. https://archiveofourown.org/works/12345/chapters/67890
     if "/chapters/" not in url:
         # If the user pasted a plain /works/ URL, redirect them helpfully
         # but still try — AO3 will give us chapter 1 by default
         print("  ℹ️  No chapter ID in URL — fetching chapter 1 by default.")
 
-    #  2. Download the page 
+    # Download the page 
     print(f"  📡 Fetching: {url}")
     print("  ⏳ This may take ~5 seconds (Cloudflare check)...")
     try:
@@ -120,7 +122,7 @@ def fetch_ao3_chapter(url: str):
             "Check the URL and try again."
         )
 
-    # ── 3. Parse the HTML ──────────────────────────────────────────────────
+    # Parse the HTML 
     soup = BeautifulSoup(response.text, "html.parser")
 
     # Work title
@@ -145,6 +147,8 @@ def fetch_ao3_chapter(url: str):
     # None of the <option> tags carry a selected= attribute in the HTML —
     # instead we figure out which chapter we're on by matching the chapter
     # ID in the URL against each option's value attribute.
+    #can you tell i spent way too long on this part? because i did. it was a nightmare.
+    #also I hate python this makes no sense, #C superiority 
     chapter_select = soup.find("select", {"name": "selected_id"})
     if chapter_select:
         options = chapter_select.find_all("option")
@@ -170,7 +174,7 @@ def fetch_ao3_chapter(url: str):
             "The work might be locked (login required) or the URL is wrong."
         )
 
-    # collect text
+    # Collect text
     paragraphs = []
     for element in body_div.find_all(["p", "br", "h1", "h2", "h3"]):
         text = element.get_text()
@@ -220,12 +224,12 @@ def save_chapter(work_title: str, author: str, chapter_title: str,
     return filepath
 
 
-#  converter 
+# converter 
 
 def write_8xv(txt_filepath: str) -> str:
     
-    #Write a valid TI-83+/84+ AppVar (.8xv) file directly from the txt file.
-    #No ConvText needed.
+    # Write a valid TI-83+/84+ AppVar (.8xv) file directly from the txt file.
+    # No ConvText needed.
     # Read the text to store.
     with open(txt_filepath, "rb") as f:
         data = f.read()
@@ -274,7 +278,7 @@ def write_8xv(txt_filepath: str) -> str:
 
     return output_path
     
-#  Interactive loop 
+# Interactive loop 
 
 def main():
     print("=" * 50)
