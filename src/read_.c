@@ -6,12 +6,14 @@
 #include <stdint.h>
 
 // Settings
-#define LINES_ON_SCREEN   24   // lines visible on screen
-#define LINE_HEIGHT       10   // pixels per line
-#define LINE_WIDTH        39   // characters per line
-#define SCREEN_WIDTH     320   //screen size in pixels
-#define SCREEN_HEIGHT    240   //also screen size in pixels
-#define SCROLL_BUFFER     2    // extra lines user can scroll past the last full screen
+#define LINES_ON_SCREEN   24    //lines visible on screen
+#define LINE_HEIGHT       10    //pixels per line
+#define LINE_WIDTH        39    //characters per line
+#define SCREEN_WIDTH      320   //screen size in pixels
+#define SCREEN_HEIGHT     240   //also screen size in pixels
+#define SCROLL_BUFFER     2     //extra lines user can scroll past the last full screen
+#define FAST_SCROLL       50    //lines scrolled using +/- keys
+#define FAST_SCROLL_DELAY 100   //ms to wait when holding +/- for fast scroll, I don't know how to add a wait timer to the scroll loop so this does nothing
 
 // Set to 1 to show character number:byte_value, 0 for normal reading
 //not useful, requires file Ch1.8xv to be present
@@ -104,7 +106,7 @@ int open_chapter(int chapter_num) {
     uint16_t skip;
     ti_Read(&skip, 2, 1, open_slot);
 
-    // Single pass: grow the pointer array with realloc as we read each line.
+    // Single pass: grow the pointer array with realloc
     // total_lines is incremented only after a line is successfully stored,
     // so it can never exceed the number of lines actually read.
     total_lines = 0;
@@ -257,7 +259,7 @@ int main(void) {
 
         int scroll = 0;
         int max_scroll = total_lines - LINES_ON_SCREEN + SCROLL_BUFFER;
-        if (max_scroll < 0) max_scroll = 0;
+        if (max_scroll < 0) max_scroll = 0; //why would you have a negative scroll?
 
         while (1) {
             draw_screen(scroll);
@@ -269,6 +271,16 @@ int main(void) {
 
             if (kb_IsDown(kb_KeyDown)) {
                 if (scroll < max_scroll) scroll++;
+            }
+
+             if (kb_IsDown(kb_KeyAdd)) {
+                scroll += FAST_SCROLL;
+                if (scroll > max_scroll) scroll = max_scroll;
+            }
+ 
+            if (kb_IsDown(kb_KeySub)) {
+                scroll -= FAST_SCROLL;
+                if (scroll < 0) scroll = 0;
             }
 
             if (kb_IsDown(kb_Key2nd) || kb_IsDown(kb_KeyClear)) {

@@ -1340,11 +1340,302 @@ _run_debug:                             ; @run_debug
 	.type	_main,@function
 _main:                                  ; @main
 ; %bb.0:
+	ld	hl, -12
+	call	__frameset
 	call	_gfx_Begin
-	call	_run_debug
+	.local	.LBB7_1
+.LBB7_1:                                ; %.loopexit
+                                        ; =>This Loop Header: Depth=1
+                                        ;     Child Loop BB7_9 Depth 2
+                                        ;     Child Loop BB7_4 Depth 2
+	call	_select_chapter
+	ex	de, hl
+	sbc	hl, hl
+	adc	hl, de
+	jp	z, .LBB7_26
+; %bb.2:                                ;   in Loop: Header=BB7_1 Depth=1
+	ld	hl, 1
+	push	hl
+	ld	(ix - 3), de
+	call	_gfx_SetDraw
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillScreen
+	pop	hl
+	ld	hl, 254
+	push	hl
+	call	_gfx_SetTextFGColor
+	pop	hl
+	ld	hl, 110
+	push	hl
+	push	hl
+	ld	hl, _.str.10
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_Blit
+	pop	hl
+	ld	hl, (ix - 3)
+	push	hl
+	call	_open_chapter
+	pop	de
+	add	hl, bc
+	or	a, a
+	sbc	hl, bc
+	jr	nz, .LBB7_6
+; %bb.3:                                ;   in Loop: Header=BB7_1 Depth=1
+	ld	hl, 1
+	push	hl
+	call	_gfx_SetDraw
+	pop	hl
+	or	a, a
+	sbc	hl, hl
+	push	hl
+	call	_gfx_FillScreen
+	pop	hl
+	ld	hl, 254
+	push	hl
+	call	_gfx_SetTextFGColor
+	pop	hl
+	ld	hl, 110
+	push	hl
+	ld	hl, 80
+	push	hl
+	ld	hl, _.str.11
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 130
+	push	hl
+	ld	hl, 80
+	push	hl
+	ld	hl, _.str.12
+	push	hl
+	call	_gfx_PrintStringXY
+	pop	hl
+	pop	hl
+	pop	hl
+	ld	hl, 1
+	push	hl
+	call	_gfx_Blit
+	pop	hl
+	.local	.LBB7_4
+.LBB7_4:                                ;   Parent Loop BB7_1 Depth=1
+                                        ; =>  This Inner Loop Header: Depth=2
+	call	_kb_AnyKey
+	or	a, a
+	jp	nz, .LBB7_1
+; %bb.5:                                ;   in Loop: Header=BB7_4 Depth=2
+	call	_kb_Scan
+	jr	.LBB7_4
+	.local	.LBB7_6
+.LBB7_6:                                ;   in Loop: Header=BB7_1 Depth=1
+	ld	iy, (_total_lines)
+	lea	hl, iy + 0
+	ld	de, 23
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	p, .LBB7_8
+; %bb.7:                                ;   in Loop: Header=BB7_1 Depth=1
+	ld	iy, 22
+	.local	.LBB7_8
+.LBB7_8:                                ;   in Loop: Header=BB7_1 Depth=1
+	ld	de, -22
+	add	iy, de
+	ld	(ix - 6), iy
+	or	a, a
+	sbc	hl, hl
+	.local	.LBB7_9
+.LBB7_9:                                ;   Parent Loop BB7_1 Depth=1
+                                        ; =>  This Inner Loop Header: Depth=2
+	ld	(ix - 3), hl
+	push	hl
+	call	_draw_screen
+	pop	hl
+	call	_kb_Scan
+	ld	hl, -720866
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	dec	hl
+	ld	iyl, e
+	ld	iyh, d
+	pop	de
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	(ix - 8), l
+	ld	(ix - 7), h
+	ld	hl, -720868
+	ld	c, (hl)
+	inc	hl
+	ld	b, (hl)
+	dec	hl
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	hl, -720878
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	ld	hl, (ix - 3)
+	bit	5, a
+	jp	nz, .LBB7_25
+; %bb.10:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	(ix - 12), c
+	ld	(ix - 11), b
+	ld	(ix - 10), e
+	ld	(ix - 9), d
+	ld	de, 1
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	ld	a, -1
+	jp	p, .LBB7_12
+; %bb.11:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	a, 0
+	.local	.LBB7_12
+.LBB7_12:                               ;   in Loop: Header=BB7_9 Depth=2
+	ex	de, hl
+	ld	e, iyl
+	ex	de, hl
+	bit	3, l
+	ld	l, -1
+	jr	nz, .LBB7_14
+; %bb.13:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	l, 0
+	.local	.LBB7_14
+.LBB7_14:                               ;   in Loop: Header=BB7_9 Depth=2
+	and	a, l
+	ld	l, a
+	ld	c, 23
+	call	__ishl
+	add	hl, hl
+	sbc	hl, hl
+	push	hl
+	pop	bc
+	ld	iy, (ix - 3)
+	add	iy, bc
+	ld	l, (ix - 8)
+	ld	h, (ix - 7)
+	ld.sis	bc, 1
+	call	__sand
+	ex.sis	de, hl
+	lea	hl, iy + 0
+	ld	bc, (ix - 6)
+	or	a, a
+	sbc	hl, bc
+	call	pe, __setflag
+	ld	l, -1
+	jp	m, .LBB7_16
+; %bb.15:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	l, 0
+	.local	.LBB7_16
+.LBB7_16:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	a, e
+	and	a, l
+	ld	l, a
+	ld	bc, 1
+	call	__iand
+	ex	de, hl
+	add	iy, de
+	ld	(ix - 3), iy
+	ld	de, 50
+	add	iy, de
+	lea	hl, iy + 0
+	ld	de, (ix - 6)
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	jp	m, .LBB7_18
+; %bb.17:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	iy, (ix - 6)
+	.local	.LBB7_18
+.LBB7_18:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	l, (ix - 12)
+	ld	h, (ix - 11)
+	ld	a, l
+	bit	1, a
+	jr	z, .LBB7_20
+; %bb.19:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	(ix - 3), iy
+	.local	.LBB7_20
+.LBB7_20:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	bc, (ix - 3)
+	push	bc
+	pop	hl
+	ld	de, 51
+	or	a, a
+	sbc	hl, de
+	call	pe, __setflag
+	push	bc
+	pop	hl
+	jp	p, .LBB7_22
+; %bb.21:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	hl, 50
+	.local	.LBB7_22
+.LBB7_22:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	e, (ix - 10)
+	ld	d, (ix - 9)
+	ld	a, e
+	ld	de, -50
+	add	hl, de
+	bit	2, a
+	ld	iy, -720868
+	jr	z, .LBB7_24
+; %bb.23:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	(ix - 3), hl
+	.local	.LBB7_24
+.LBB7_24:                               ;   in Loop: Header=BB7_9 Depth=2
+	ld	l, (iy)
+	ld	h, (iy + 1)
+	ld	a, l
+	bit	6, a
+	ld	hl, (ix - 3)
+	jp	z, .LBB7_9
+	.local	.LBB7_25
+.LBB7_25:                               ;   in Loop: Header=BB7_1 Depth=1
+	ld	hl, -720868
+	push	de
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	pop	de
+	ld	a, l
+	bit	6, a
+	jp	z, .LBB7_1
+	jr	.LBB7_27
+	.local	.LBB7_26
+.LBB7_26:
+	call	_free_lines
+	.local	.LBB7_27
+.LBB7_27:                               ; %.loopexit1
 	call	_gfx_End
 	or	a, a
 	sbc	hl, hl
+	ld	sp, ix
+	pop	ix
 	ret
 	.local	.Lfunc_end7
 .Lfunc_end7:
@@ -1428,10 +1719,29 @@ _.str.8:
 _.str.9:
 	.asciz	":"
 
+	.section	.rodata._.str.10,"a",@progbits
+	.balign	1
+	.local	_.str.10
+_.str.10:
+	.asciz	"Loading..."
+
+	.section	.rodata._.str.11,"a",@progbits
+	.balign	1
+	.local	_.str.11
+_.str.11:
+	.asciz	"Ch not found!"
+
+	.section	.rodata._.str.12,"a",@progbits
+	.balign	1
+	.local	_.str.12
+_.str.12:
+	.asciz	"Press any key"
+
 	.ident	"clang version 19.1.0 (https://github.com/CE-Programming/llvm-project ef28e9c54cd1333a6091ab2ffbd315b465fc5090)"
 	.section	".note.GNU-stack","",@progbits
 	.extern	__idivu
 	.extern	_llvm.eh.sjlj.functioncontext
+	.extern	_llvm.smin.i24
 	.extern	_llvm.smax.i24
 	.extern	_gfx_PrintString
 	.extern	_llvm.lifetime.end.p0
@@ -1447,6 +1757,7 @@ _.str.9:
 	.extern	__frameset
 	.extern	_kb_Scan
 	.extern	_strncat
+	.extern	__iand
 	.extern	__imulu
 	.extern	__setflag
 	.extern	_gfx_PrintStringXY
@@ -1468,5 +1779,6 @@ _.str.9:
 	.extern	_gfx_Blit
 	.extern	_kb_AnyKey
 	.extern	_gfx_SetDraw
+	.extern	__ishl
 	.extern	_gfx_SetTextFGColor
 	.extern	_gfx_Begin

@@ -67,6 +67,10 @@ __libload_library_KEYPADC:
  .type _kb_Scan, @function
 _kb_Scan:
  jp 0
+ .global _kb_AnyKey
+ .type _kb_AnyKey, @function
+_kb_AnyKey:
+ jp 6
 .endm
 
  .assume adl=1

@@ -1,4 +1,4 @@
-/* generated from: obj/debug.o */
+/* generated from: obj/read.o */
 #define HAS_INIT_ARRAY 0
 #define HAS_FINI_ARRAY 0
 #define HAS_CLOCK 0
@@ -78,6 +78,10 @@ __libload_library_KEYPADC:
 	.type _kb_Scan, @function
 _kb_Scan:
 	jp 0
+	.global _kb_AnyKey
+	.type _kb_AnyKey, @function
+_kb_AnyKey:
+	jp 6
 .endm
 #endif
 #define HAS_LIBLOAD 1
