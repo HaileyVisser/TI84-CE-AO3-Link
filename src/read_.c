@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+
 // Settings
 #define LINES_ON_SCREEN   24    //lines visible on screen
 #define LINE_HEIGHT       10    //pixels per line
@@ -13,7 +14,11 @@
 #define SCREEN_HEIGHT     240   //also screen size in pixels
 #define SCROLL_BUFFER     2     //extra lines user can scroll past the last full screen
 #define FAST_SCROLL       50    //lines scrolled using +/- keys
-#define FAST_SCROLL_DELAY 100   //ms to wait when holding +/- for fast scroll, I don't know how to add a wait timer to the scroll loop so this does nothing
+#define FAST_SCROLL_DELAY 100   //ms to wait when holding +/- for fast scroll
+#define sleep             10    //how tf do I do this
+
+//sleep timer
+    
 
 // Set to 1 to show character number:byte_value, 0 for normal reading
 //not useful, requires file Ch1.8xv to be present
@@ -276,11 +281,13 @@ int main(void) {
              if (kb_IsDown(kb_KeyAdd)) {
                 scroll += FAST_SCROLL;
                 if (scroll > max_scroll) scroll = max_scroll;
+                //wait (FAST_SCROLL_DELAY);
             }
  
             if (kb_IsDown(kb_KeySub)) {
                 scroll -= FAST_SCROLL;
                 if (scroll < 0) scroll = 0;
+                //wait (FAST_SCROLL_DELAY);
             }
 
             if (kb_IsDown(kb_Key2nd) || kb_IsDown(kb_KeyClear)) {
